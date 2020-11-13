@@ -69,3 +69,27 @@ Art Direction: Marielle Tepper
 * the rendering itself can become affected by audio and break / gitch according to song
 
 ---
+
+## 20/11/13
+
+_had a talk with my advisor, Lena, today and she made some good points_
+
+**What is my project _actually_ about? Just visualizing music is pretty whack.**
+
+**Why does it have to be in VR? What can VR do for my project, that can't be done else?**
+
+One overarchieving theme could be **learning about and exploring music on a deeper level**. Visualizations of frequencies could have the chance that user's are able to see sounds they didn't hear at first and then concentrate on them to actually hear them. Like how you sometimes find interesting places in streets you thought you knew, just because you spotted them on Google Map's visualization of your surrondings.
+
+Visualization of music has the chance to break up the complexity of some songs in seperate parts, without disrupting the sonic experience.
+* A "tutorial" could make the user aware of what the element's animated represent: which frequency spectrum and what instrument's usually play there. In-Game it would be then easier to associate movement's of the elements to changes to in the frequency
+* Looking at an element could also trigger a pop-up displaying technical information: What frequency spectrum is represented, show it's current value or it's value change over x time
+
+Still, we **need a way to make use of the virtual environment and it's space**.
+* Maybe use spatial audio to highlight certain frequencies at certain locations?
+* Maybe give the user the ability to "walk" through parts of the song, visualized as waveforms?
+
+**IDEA FOR THE THEME**
+
+The VR headset is a "musical micoscope", giving you the ability to look into the sonic waves and their changes over time. You enter the world and you're in a scenery resembling something like the matrix. There are waveforms, frequency bands and all kind of stuff in your crazy labratory.
+
+The style is a mixture of Ghetto-Cyberpunk or Steamwork and artificial digital screens.
