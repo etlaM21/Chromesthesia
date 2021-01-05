@@ -1,4 +1,16 @@
 # 1st Term Project Diary
+- [1st Term Project Diary](#1st-term-project-diary)
+  - [20/11/04](#201104)
+  - [20/11/08](#201108)
+  - [20/11/13](#201113)
+  - [20/11/27](#201127)
+  - [20/12/02](#201202)
+  - [20/12/18](#201218)
+  - [20/12/30](#201230)
+  - [20/01/04](#200104)
+
+---
+
 ## 20/11/04
 **Main Concept**
 
@@ -93,3 +105,55 @@ Still, we **need a way to make use of the virtual environment and it's space**.
 The VR headset is a "musical micoscope", giving you the ability to look into the sonic waves and their changes over time. You enter the world and you're in a scenery resembling something like the matrix. There are waveforms, frequency bands and all kind of stuff in your crazy labratory.
 
 The style is a mixture of Ghetto-Cyberpunk or Steamwork and artificial digital screens.
+
+---
+
+## 20/11/27
+
+_had a talk with my advisor again_
+
+* 3D Spectrum as landscape
+* Learning through itneracitivity
+* Interaction changes visualization (changes music (lowpass etc.), so people learn as well?)
+
+---
+
+
+## 20/12/02
+
+_presented my project and got nice input_
+
+* Interacitivity can also mean adding sound objects ?
+* Use Chroma feature or Chromagram instead of FFT because it "evens" out frequencies and displays frequencies' amplitudes more like they are actually heard by us
+
+---
+
+## 20/12/18
+
+_talk with advisor Lena_
+
+* [Made a schedule](schedule.md) for the upcoming weeks
+  * Lena gave input on wether or not it's possible / does make sense
+
+---
+
+## 20/12/30
+
+_one thing's for sure: we're not ahead of schedule_
+
+* during the holidays I was able to implement background threaded audio analysis
+  * [This implementation of it by Jesse from Giant Scam now is the base of my project](https://medium.com/giant-scam/algorithmic-beat-mapping-in-unity-preprocessed-audio-analysis-d41c339c135a)
+  * new problems occured: we get **too much data** to display!
+
+---
+
+## 20/01/04
+
+_first day of the project week: tried to build the world by reducing the data but still ran into problems_
+
+* reduced the number of frequency bands to 24 by taking the median of a region
+  * data seems fishy, maybe I implemented it wrong?
+  * median also shouldn't be the way to go, so maybe I have to rewrite it
+* even with reduced "detail" of frequency, it's still to much for the instantiating approach:
+  * 24 * > 12 000 (for a 4-minute song) data points in time = 288 000
+    * the solution might be to instantiate maybe 10 000 objects at the beginning and then just reposition them after they move out of sight ?
