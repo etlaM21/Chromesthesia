@@ -8,6 +8,8 @@
   - [20/12/18](#201218)
   - [20/12/30](#201230)
   - [20/01/04](#200104)
+  - [20/01/05](#200105)
+  - [20/01/05](#200105-1)
 
 ---
 
@@ -157,3 +159,18 @@ _first day of the project week: tried to build the world by reducing the data bu
 * even with reduced "detail" of frequency, it's still to much for the instantiating approach:
   * 24 * > 12 000 (for a 4-minute song) data points in time = 288 000
     * the solution might be to instantiate maybe 10 000 objects at the beginning and then just reposition them after they move out of sight ?
+
+
+---
+
+## 20/01/05
+
+_reduced the amount of data and learned how fft actually works and what data i recieve_
+
+---
+
+## 20/01/05
+
+_"fixed" my daat to soomehow resemble a proper spectrum like in a DAW_
+
+![FFT comparison](img/FFT_comparisons.gif)
