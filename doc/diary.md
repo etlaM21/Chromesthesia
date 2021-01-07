@@ -174,3 +174,5 @@ _reduced the amount of data and learned how fft actually works and what data i r
 _"fixed" my daat to soomehow resemble a proper spectrum like in a DAW_
 
 ![FFT comparison](img/FFT_comparisons.gif)
+
+![Sequence01](img/sequence_01.PNG)
