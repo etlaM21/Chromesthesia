@@ -9,7 +9,7 @@
   - [20/12/30](#201230)
   - [20/01/04](#200104)
   - [20/01/05](#200105)
-  - [20/01/05](#200105-1)
+  - [20/01/06](#200106)
 
 ---
 
@@ -169,7 +169,7 @@ _reduced the amount of data and learned how fft actually works and what data i r
 
 ---
 
-## 20/01/05
+## 20/01/06
 
 _"fixed" my daat to soomehow resemble a proper spectrum like in a DAW_
 
