@@ -174,7 +174,11 @@ _reduced the amount of data and learned how fft actually works and what data i r
 
 _"fixed" my daat to soomehow resemble a proper spectrum like in a DAW_
 
+
+![FFT comparison](img/FFTRAW_comparisons.gif)
+The raw FFT data vs the output of a DAW
 ![FFT comparison](img/FFT_comparisons.gif)
+My scaling implementation vs the output of a DAW
 
 ![Sequence01](img/sequence_01.PNG)
 

@@ -848,7 +848,7 @@ MonoBehaviour:
   maxObjects: 500
   spectrumRows: 32
   secondsPerFFTChunk: 0
-  tunnelGrid: 1
+  tunnelGrid: 0
 --- !u!4 &2085698440
 Transform:
   m_ObjectHideFlags: 0
