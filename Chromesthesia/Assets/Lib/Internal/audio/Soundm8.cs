@@ -10,7 +10,7 @@ using System.Numerics;
 using DSPLib;
 public class Soundm8 : MonoBehaviour
 {
-    Main main; // NOOOOT GOOD CHANGE THIS SHIT: CALLBACK WFROM MAIN ????
+    Main main; // NOOOOT GOOD, CHANGE: CALLBACK WFROM MAIN ????
     AudioSource audioSource;
 	SpectralFluxAnalyzer realTimeSpectralFluxAnalyzer;
 	int numChannels;
@@ -31,7 +31,7 @@ public class Soundm8 : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        main = GameObject.Find("Main").GetComponent<Main> (); // NOOOOT GOOD CHANGE THIS SHIT: CALLBACK WFROM MAIN ????
+        main = GameObject.Find("Main").GetComponent<Main> (); // NOOOOT GOOD, CHANGE THIS: CALLBACK WFROM MAIN ????
 
         wholeSpectrum = new List<float[]>();
 		simpleSpectrum = new List<Tuple<float, float[]>>();
@@ -102,8 +102,7 @@ public class Soundm8 : MonoBehaviour
 			Debug.Log (preProcessedSamples.Length);
 
 			// Once we have our audio sample data prepared, we can execute an FFT to return the spectrum data over the time domain
-			//int spectrumSampleSize = 1024;
-			int spectrumSampleSize = 2048; // Fucks the spectralFluxShit
+			int spectrumSampleSize = 2048;
 			
 			int iterations = preProcessedSamples.Length / spectrumSampleSize;
 
@@ -113,7 +112,7 @@ public class Soundm8 : MonoBehaviour
 			Debug.Log (string.Format("Processing {0} time domain samples for FFT", iterations));
 			double[] sampleChunk = new double[spectrumSampleSize];
 			for (int i = 0; i < iterations; i++) {
-				// Grab the current 1024 chunk of audio sample data
+				// Grab the current 2048 chunk of audio sample data
 				Array.Copy (preProcessedSamples, i * spectrumSampleSize, sampleChunk, 0, spectrumSampleSize);
 
 				// Apply our chosen FFT Window
@@ -126,14 +125,14 @@ public class Soundm8 : MonoBehaviour
 				double[] scaledFFTSpectrum = DSPLib.DSP.ConvertComplex.ToMagnitude (fftSpectrum);
 				scaledFFTSpectrum = DSP.Math.Multiply (scaledFFTSpectrum, scaleFactor);
 
-				// These 1024 magnitude values correspond (roughly) to a single point in the audio timeline
+				// These 2048 magnitude values correspond (roughly) to a single point in the audio timeline
 				float curSongTime = getTimeFromIndex(i) * spectrumSampleSize;
 
-				/* START MY SHITTY ADDON */
-				// Test Building Shit
+				
 				addToSpectrum(Array.ConvertAll (scaledFFTSpectrum, x => (float)x), curSongTime);
+				/* Start only for testing */
 				//TestSpectrumBoy.instSpectrumRow(Array.ConvertAll (scaledFFTSpectrum, x => (float)x), curSongTime);
-				/* END MY SHITTY ADDON */
+				/* End only for testing */
 
 				// Send our magnitude data off to our Spectral Flux Analyzer to be analyzed for peaks
 
@@ -162,7 +161,10 @@ public class Soundm8 : MonoBehaviour
 		float stepSize = 1f;
 		List<int> bucketSizes = new List<int>();
 		while(true){
+			// increase stepSize each iteration by stepFactor, so we get bigger Buckets
 			stepSize = stepSize * stepFactor;
+			// check if the next bucket + the sum of all others will be bigger than our spectrum
+			// if so: just calculate the buckets needed to represent the whole spectrum
 			if(bucketSizes.Sum() + stepSize > spectrum.Length){
 				bucketSizes.Add(spectrum.Length - bucketSizes.Sum());
 				break;
