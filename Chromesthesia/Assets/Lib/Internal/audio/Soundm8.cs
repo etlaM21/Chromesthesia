@@ -10,12 +10,12 @@ using System.Numerics;
 using DSPLib;
 public class Soundm8 : MonoBehaviour
 {
-    MainOnlyAudio main; // NOOOOT GOOD CHANGE THIS SHIT: CALLBACK WFROM MAIN ????
+    Main main; // NOOOOT GOOD CHANGE THIS SHIT: CALLBACK WFROM MAIN ????
     AudioSource audioSource;
 	SpectralFluxAnalyzer realTimeSpectralFluxAnalyzer;
 	int numChannels;
 	int numTotalSamples;
-	int sampleRate;
+	public int sampleRate;
 	float clipLength;
 	float[] multiChannelSamples;
 	SpectralFluxAnalyzer preProcessedSpectralFluxAnalyzer;
@@ -31,7 +31,7 @@ public class Soundm8 : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        main = GameObject.Find("Main").GetComponent<MainOnlyAudio> (); // NOOOOT GOOD CHANGE THIS SHIT: CALLBACK WFROM MAIN ????
+        main = GameObject.Find("Main").GetComponent<Main> (); // NOOOOT GOOD CHANGE THIS SHIT: CALLBACK WFROM MAIN ????
 
         wholeSpectrum = new List<float[]>();
 		simpleSpectrum = new List<Tuple<float, float[]>>();
@@ -197,5 +197,11 @@ public class Soundm8 : MonoBehaviour
 			scaledSpectrumsPerRow[i] = Mathf.Abs(max); // FFT can return negative spikes as the signal is a wave
 		}
 		simpleSpectrum.Add(new Tuple<float, float[]>(time, scaledSpectrumsPerRow));
+	}
+
+	public float calcSecondsPerFFTChunk(float sampleRate){
+			float secondsPerMusicSample = 1f / sampleRate;
+			float secondsPerFFTChunk = secondsPerMusicSample * 1024f;
+			return secondsPerFFTChunk;
 	}
 }

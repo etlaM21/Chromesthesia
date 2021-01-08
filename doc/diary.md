@@ -10,6 +10,7 @@
   - [20/01/04](#200104)
   - [20/01/05](#200105)
   - [20/01/06](#200106)
+  - [20/01/07](#200107)
 
 ---
 
@@ -176,3 +177,11 @@ _"fixed" my daat to soomehow resemble a proper spectrum like in a DAW_
 ![FFT comparison](img/FFT_comparisons.gif)
 
 ![Sequence01](img/sequence_01.PNG)
+
+---
+
+## 20/01/07
+
+_was able to "load in" objects at end of spectrum to help with performance, player moves according to audio, tunnel is shit right now_
+
+![Tunnel and grid comparison](img/VergleichGridTunnel.gif)
