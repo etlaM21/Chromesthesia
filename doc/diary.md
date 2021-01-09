@@ -12,6 +12,7 @@
   - [20/01/06](#200106)
   - [20/01/07](#200107)
   - [20/01/08](#200108)
+  - [20/01/09](#200109)
 
 ---
 
@@ -199,3 +200,9 @@ _made new mockup, pizzaslices, talk with angela: fft; dsplib; what i calles scla
 ![Tunnel and grid comparison](../res/mockup_newBox_tunnel.png)
 ![Tunnel and grid comparison](../res/mockup_newBox_states.png)
 ![Tunnel and grid comparison](img/pizzaslices.PNG)
+
+---
+
+## 20/01/09
+
+_applied new tunnel to audio visualizer, problem with normal maps -> change alogrithm "back" to rotating objects, was ale to complete the vr setup with oculus quest: as of now the experience is not possible due to processing (i guess) -> change vertexices calculation to part of the prepocessing_
