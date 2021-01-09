@@ -8,6 +8,8 @@ ReferenceAudio
 
 SampleProjects
 
+res/*.c4d
+
 
 # Created by https://www.toptal.com/developers/gitignore/api/unity,visualstudiocode
 # Edit at https://www.toptal.com/developers/gitignore?templates=unity,visualstudiocode

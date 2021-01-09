@@ -11,6 +11,7 @@
   - [20/01/05](#200105)
   - [20/01/06](#200106)
   - [20/01/07](#200107)
+  - [20/01/08](#200108)
 
 ---
 
@@ -189,3 +190,12 @@ My scaling implementation vs the output of a DAW
 _was able to "load in" objects at end of spectrum to help with performance, player moves according to audio, tunnel is shit right now_
 
 ![Tunnel and grid comparison](img/VergleichGridTunnel.gif)
+
+---
+
+## 20/01/08
+
+_made new mockup, pizzaslices, talk with angela: fft; dsplib; what i calles sclaing is FFt representatin, talk with pierre: unity system blabla,turned mockup kinda in reality_
+![Tunnel and grid comparison](../res/mockup_newBox_tunnel.png)
+![Tunnel and grid comparison](../res/mockup_newBox_states.png)
+![Tunnel and grid comparison](img/pizzaslices.PNG)
