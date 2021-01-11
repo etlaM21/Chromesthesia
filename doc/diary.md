@@ -288,6 +288,7 @@ _FIRST: Yay, progress! THEN: Let's try it in VR finally. NOW: FML, doesn't work 
 _Today I maybe dug my own grave. We'll see on the 12th of March._
 
 **_DONE_**
+- updated documentation, now it actually shows what I did last week
 - decided on the [worst and best case](worstbestcase.md) 
 
 **_TODO_**
