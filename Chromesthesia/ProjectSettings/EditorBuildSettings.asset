@@ -5,10 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Chromesthesia.unity
     guid: e0a46890ddd0cf9468067621a21320f9
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/VRTest.unity
     guid: 30933027405c092498c29cde09e0a995
   m_configObjects:
