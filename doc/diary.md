@@ -145,80 +145,150 @@ _talk with advisor Lena_
 
 ## 20/12/30
 
-_one thing's for sure: we're not ahead of schedule_
+_One thing's for sure: we're not ahead of schedule_
 
-* during the holidays I was able to implement background threaded audio analysis
+**_DONE_**
+- implemented background threaded audio analysis
   * [This implementation of it by Jesse from Giant Scam now is the base of my project](https://medium.com/giant-scam/algorithmic-beat-mapping-in-unity-preprocessed-audio-analysis-d41c339c135a)
-  * new problems occured: we get **too much data** to display!
+
+**_(NEW) PROBLEMS_**
+- we get **too much data** to display!
+
+**_TODO_**
+- reduce data in a smart way
 
 ---
 
 ## 20/01/04
 
-_first day of the project week: tried to build the world by reducing the data but still ran into problems_
+_First day of the project week: tried to build the world by reducing the data but still ran into problems._
 
-* reduced the number of frequency bands to 24 by taking the median of a region
-  * data seems fishy, maybe I implemented it wrong?
-  * median also shouldn't be the way to go, so maybe I have to rewrite it
-* even with reduced "detail" of frequency, it's still to much for the instantiating approach:
-  * 24 * > 12 000 (for a 4-minute song) data points in time = 288 000
-    * the solution might be to instantiate maybe 10 000 objects at the beginning and then just reposition them after they move out of sight ?
+**_DONE_**
+- reduced the number of frequency bands to 24 by taking the median of a region
 
+**_(NEW) PROBLEMS_**
+- FFT data seems fishy, maybe I implemented it wrong?
+  - the average also shouldn't (?) be the way to go, so maybe I have to rewrite it
+- even with reduced "detail" of frequency, it's still to much for the instantiating approach:
+  - 24 * > 12 000 (for a 4-minute song) data points in time = 288 000
+    - the solution might be to instantiate maybe 10 000 objects at the beginning and then just reposition them after they move out of sight ?
+
+**_TODO_**
+- Fix / understand FFT
+- implement a way to just have a set amount of objects and reposition them according to the audio's playback position
 
 ---
 
 ## 20/01/05
 
-_reduced the amount of data and learned how fft actually works and what data i recieve_
+_FFT, FFT, FFT, FFT, FFT, FFT ..._
+
+**_DONE_**
+- reduced the amount of data properly
+  - now using the max amplitude of a frequency range, seems to work better
+- read lots about the workings of FFT and DSPlib
+
+**_TODO_**
+- figure out what exactly the data I recieve from the FFT represents and how to properly work with it
 
 ---
 
 ## 20/01/06
 
-_"fixed" my daat to soomehow resemble a proper spectrum like in a DAW_
+_Lots of figuring out FFTs again, this time trying to work with the data I recieve better._
 
+**_DONE_**
+- implemented a (hacky) way to have the data of the FFT result in a spectrum that resembles the representation in a DAW's EQ
+- seperated my code into "modules"
+  - planned a system of communication between those
 
-![FFT comparison](img/FFTRAW_comparisons.gif)
-The raw FFT data vs the output of a DAW
+**_TODO_**
+- my specrum is still not 100% accurate
+
+![Raw FFT comparison](img/FFTRAW_comparisons.gif)
+_The raw FFT data vs the output of a DAW._
+
 ![FFT comparison](img/FFT_comparisons.gif)
-My scaling implementation vs the output of a DAW
+_My scaling implementation vs the output of a DAW._
 
 ![Sequence01](img/sequence_01.PNG)
+_Sequence diagram._
 
 ---
 
 ## 20/01/07
 
-_was able to "load in" objects at end of spectrum to help with performance, player moves according to audio, tunnel is shit right now_
+_Made lots of progress and build a first prototype resulting in me going to bed with frustration. Why can't everything just work and look perfectly immediately?_
+
+**_DONE_**
+- player moves according to audio playback
+- first proper building of the world (kind of) as I envisioned it (a tunnel)
+- limited objects in the tunnel to 500
+  - now rows representing freuencies at a certain time are loaded in as the player progresses
+
+**_(NEW) PROBLEMS_**
+- tunnel doesn't look good
+  - spacing is way too big
+
+**_TODO_**
+- find a way to build the tunnel differently so it looks good
 
 ![Tunnel and grid comparison](img/VergleichGridTunnel.gif)
+_**Left:** The frequencies' amplitudes represented by scaling boxes and positioning these in a circle (building a tunnel). **Right:** Spectrum as a simple landscape, lows on the left, highs on the right._
 
 ---
 
 ## 20/01/08
 
-_made new mockup, pizzaslices, talk with angela: fft; dsplib; what i calles sclaing is FFt representatin, talk with pierre: unity system blabla,turned mockup kinda in reality_
-![Tunnel and grid comparison](../res/mockup_newBox_tunnel.png)
-![Tunnel and grid comparison](../res/mockup_newBox_states.png)
-![Tunnel and grid comparison](img/pizzaslices.PNG)
+_Now pizza is somehow an integral part of my project, we've come so far. Also lots of talks and advice._
+
+**_DONE_**
+- made a new mockup in C4D for the objects the tunnel is made of
+  - **_"Pizzaslices"_**: The inner radius of objects changes with the amplitude of the frequency
+- talked with Angela about FFT
+- talked with Pierred about Unity and how to properly do things
+- turned mockup into reality in Unity
+
+**_TODO_**
+- implement proper representation of FFT like in the EQ of a DAW
+- turn main script into Singleton
+
+![Mockup new tunnel](../res/mockup_newBox_tunnel.png)
+_Mockup of a new tunnel._
+
+![Pizzaslices mockuo in C4D](../res/mockup_newBox_states.png)
+_Objects the tunnel is made of (pizzaslices)._
+
+![Pizzaslices in Unity](img/pizzaslices.PNG)
+_Implementation in Unity._
 
 ---
 
 ## 20/01/09
 
-_applied new tunnel to audio visualizer, problem with normal maps -> change alogrithm "back" to rotating objects, was ale to complete the vr setup with oculus quest: as of now the experience is not possible due to processing (i guess) -> change vertexices calculation to part of the prepocessing_---
+_FIRST: Yay, progress! THEN: Let's try it in VR finally. NOW: FML, doesn't work straight away. Sadness._
+
+**_DONE_**
+- build a new tunnel out of "pizzaslices"
+  - amplitudes of frequency are represented by inner radius of slices
+- completed VR setup to make use of Oculus Quest
+
+**_(NEW) PROBLEMS_**
+- normal maps of slices are buggy
+- no real VR experience, too laggy (0.5 FPS) and doesn't work properly
+
+**_TODO_**
+- change algorithm of pizzaslices "back" to rotating objects to fix normal maps by having triangles always drawn in the right direction at 0,0 going upwards and the positioning them circular
+- preprocess calculations of vertices to try and fix performance issues on Oculus Quest
 
 ---
 
 ## 20/01/11
 
-Worst Case | Best Case 
------- | ------ 
-Set of at least 10 Songs to choose from | **SoundCloud API** integration to load songs
-**Preprocessed FFT** | **Proper representation** of FFT like in DAW EQ
-3D **landscape generated by amplitudes** of sound frequencies | **Visually pleasing, interesting** 3D landscape generated by amplitudes of sound frequencies (better than worst case) <br>_e.g. by_<br> <ul> <li> custom shaders </li> <li> particle effects </li> <li> detecting beats for more complex landscape </li> </ul>
-Working VR experience on the **Oculus Quest** | Smooth VR Experience on the **Oculus Quest**
-**Interacitivity** <br> <ul> <li> Audio Manipulation with Effects<ul> <li>Reverb</li> <li>Delay</li><li>Reverb</li> </ul> <li>Frequency Manipulation <ul> <li>Muting frequencies</li><li>Soloing frequencies</li></ul></ul> <br> with **basic UI** | **Interacitivity** <br> <ul> <li> Audio Manipulation with Effects<ul> <li>Reverb</li> <li>Delay</li><li>Reverb</li> </ul> <li>Frequency Manipulation <ul> <li>Muting frequencies</li><li>Soloing frequencies</li></ul></ul> <br> with **fun UX** 
-**Basic** Menu, Loading and Pause screen | Manu, Loading and Pause **"rooms"** in VR to sell a proper new reality
-**Simple geometry** in world | **Custom models** in world, e.g. 3D buttons for a "command center"
-**Barebones** documentation | **Proper** documentation
+_Today I maybe dug my own grave. We'll see on the 12th of March._
+
+**_DONE_**
+- decided on the [worst and best case](worstbestcase.md) 
+
+**_TODO_**
+- update [schedule](schedule.md) 
