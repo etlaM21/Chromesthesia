@@ -1,0 +1,71 @@
+ManifestFileVersion: 0
+CRC: 1780417304
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 89eb6fe57f854233fea6ed41c5cf49bc
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 051841f2e16dc64301abb0305327e066
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 20
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 65
+  Script: {instanceID: 0}
+- Class: 81
+  Script: {instanceID: 0}
+- Class: 104
+  Script: {instanceID: 0}
+- Class: 108
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: df9f338034892c44ebb62d97894772f1, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 7e933e81d3c20c74ea6fdc708a67e3a5, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 0950df82e7936c84983497630bde5b54, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 5178bc8574ce2bf4388e787a2e2af326, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: b71d1996d67004241a3b69960856ffcb, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: df8e1d778abf442e4bec449c360e9e1c, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 4f07515ada089df47868559a20dd6783, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 5529bd7bd2376b5488e9dcb61ea76b7d, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 143
+  Script: {instanceID: 0}
+- Class: 157
+  Script: {instanceID: 0}
+- Class: 196
+  Script: {instanceID: 0}
+- Class: 850595691
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/Scenes/TunnelTest.unity
+Dependencies:
+- H:/wip/game/Chromesthesia/Chromesthesia/OVRAssetBundles/OVRMasterBundle/asset_lighting0
+- H:/wip/game/Chromesthesia/Chromesthesia/OVRAssetBundles/OVRMasterBundle/asset_mat0
+- H:/wip/game/Chromesthesia/Chromesthesia/OVRAssetBundles/OVRMasterBundle/asset_prefab0
+- H:/wip/game/Chromesthesia/Chromesthesia/OVRAssetBundles/OVRMasterBundle/asset_resources

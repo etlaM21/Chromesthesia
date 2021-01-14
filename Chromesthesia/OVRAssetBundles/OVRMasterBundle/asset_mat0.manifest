@@ -1,0 +1,21 @@
+ManifestFileVersion: 0
+CRC: 2047267042
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: b2a95a7162c9263364487bbd2ac21fb0
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: a4e20c9d8e7103fcef39ad820c79bacf
+HashAppended: 0
+ClassTypes:
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/Materials/old_not_URP/SpectrumObjectsMaterial.mat
+- Assets/Materials/Default.mat
+Dependencies:
+- H:/wip/game/Chromesthesia/Chromesthesia/OVRAssetBundles/OVRMasterBundle/asset_shadergraph0

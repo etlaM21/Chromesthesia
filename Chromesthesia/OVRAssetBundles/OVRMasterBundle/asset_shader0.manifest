@@ -1,0 +1,17 @@
+ManifestFileVersion: 0
+CRC: 1161039032
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 648c1ccae836504521ccd53d8e0059db
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 946c7975e10b0f1edbbc05382ba4ce21
+HashAppended: 0
+ClassTypes:
+- Class: 48
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Packages/com.unity.shadergraph/Editor/Resources/Shaders/FallbackError.shader
+Dependencies: []

@@ -14,6 +14,8 @@
   - [20/01/08](#200108)
   - [20/01/09](#200109)
   - [20/01/11](#200111)
+  - [- update schedule](#--update-schedule)
+  - [20/01/14](#200114)
 
 ---
 
@@ -293,3 +295,20 @@ _Today I maybe dug my own grave. We'll see on the 12th of March._
 
 **_TODO_**
 - update [schedule](schedule.md) 
+---
+
+## 20/01/14
+
+_..._
+
+**_DONE_**
+- updated schedule
+- fixed normal maps by creating all objects at same psition then rotating
+- build testscene for VR to quicker make design decisions and test performance
+  - when reduced number of objects vr experience not the greatest but acceptable (IN TEST SCENE!) 
+
+**_(NEW) PROBLEMS_**
+- performance on oculus quest seems like a bigger problem
+
+**_TODO_**
+- preprocess vertice points for every object in whole song as well to take every possible processing load off of Oculus Quest

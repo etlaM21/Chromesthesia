@@ -1,0 +1,73 @@
+ManifestFileVersion: 0
+CRC: 280773877
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: ac464f58099c82c7f217aff40101cd48
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: bd7a4cda012b7b4896e5bcfcb0bcad1b
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 65
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: ad074644ff568a14187a3690cfbd7534, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/Oculus/Avatar/Resources/FallbackTextures/fallback_diffuse_roughness_2048.png
+- Assets/Oculus/Avatar/Resources/FallbackTextures/fallback_diffuse_roughness_256.png
+- Assets/Oculus/Avatar/Resources/Materials/Version1.5/Avatar_PC_SingleComponent.shader
+- Assets/Oculus/VR/Resources/OVRMRUnlitTransparent.shader
+- Assets/Oculus/Avatar/Resources/FallbackTextures/fallback_normal_2048.png
+- Assets/Resources/Cube.prefab
+- Assets/Resources/SpectoCube.prefab
+- Assets/Oculus/Avatar/Resources/Materials/Version1.5/Avatar_Mobile_Loader.shader
+- Assets/Resources/ONSPSettings.asset
+- Assets/Resources/OVRPlatformToolSettings.asset
+- Assets/Oculus/VR/Resources/Cubemap Blit.shader
+- Assets/Oculus/VR/Resources/OVRMRUnlit.shader
+- Assets/Oculus/Avatar/Resources/Materials/AvatarSurfaceShaderSelfOccluding.shader
+- Assets/Oculus/VR/Resources/Unlit Transparent Color.shader
+- Assets/Resources/MeshFab.prefab
+- Assets/Oculus/Avatar/Resources/Materials/AvatarSurfaceShaderPBS.shader
+- Assets/Oculus/VR/Resources/OVRMRCameraFrameLit.shader
+- Assets/Resources/Point.prefab
+- Assets/Oculus/Avatar/Resources/Materials/Version1.5/Avatar_Mobile_CombinedMesh.shader
+- Assets/Oculus/Avatar/Resources/Materials/Expressive/Avatar_Mobile_CombinedMeshExpressive.shader
+- Assets/Oculus/VR/Resources/Underlay Transparent Occluder.shader
+- Assets/Oculus/VR/Resources/Texture2D Blit.shader
+- Assets/Oculus/Avatar/Resources/Materials/Expressive/Avatar_PC_SingleComponentExpressive.shader
+- Assets/Oculus/Avatar/Resources/Materials/AvatarPBRV2Simple.shader
+- Assets/Resources/RealTimeSpectoCube.prefab
+- Assets/Oculus/Avatar/Resources/FallbackTextures/fallback_normal_256.png
+- Assets/Oculus/Avatar/Resources/Materials/Expressive/Avatar_Mobile_SingleComponentExpressive.shader
+- Assets/Oculus/VR/Resources/OVRMRCameraFrame.shader
+- Assets/Oculus/Avatar/Resources/Materials/AvatarSurfaceShaderPBSV2.shader
+- Assets/Oculus/Avatar/Resources/FallbackTextures/fallback_diffuse_roughness_1024.png
+- Assets/Oculus/Avatar/Resources/Materials/Version1.5/Avatar_Mobile_SingleComponent.shader
+- Assets/Oculus/Avatar/Resources/Materials/Expressive/AvatarEyeLens.shader
+- Assets/Oculus/Avatar/Resources/Materials/AvatarSurfaceShader.shader
+- Assets/Oculus/Avatar/Resources/FallbackTextures/fallback_normal_1024.tif
+- Assets/Oculus/VR/Resources/Underlay Impostor.shader
+- Assets/Resources/OVRBuildConfig.asset
+Dependencies:
+- H:/wip/game/Chromesthesia/Chromesthesia/OVRAssetBundles/OVRMasterBundle/asset_mat0
