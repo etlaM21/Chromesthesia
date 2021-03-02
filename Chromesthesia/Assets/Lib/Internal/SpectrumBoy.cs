@@ -19,8 +19,8 @@ public class SpectrumBoy : MonoBehaviour {
 
 	public int currentIndex;
 	
-	public int maxObjects = 500;
-	public int spectrumRows = 32;
+	public int rows = 500;
+	public int spectrals = 32;
 
 	public float secondsPerFFTChunk;
 
@@ -32,19 +32,33 @@ public class SpectrumBoy : MonoBehaviour {
 
 	public float innerRadius = 5f;
 
+	// NEW NEW NEW
+
+	Mesh mesh;
+
+    Vector3[] vertices;
+    int[] triangles;
+	Color[] colors;
+
+	// public Gradient gradient;
+	int spectralRow = 0;
+	int zOff = 0;
+
 	// Use this for initialization
 	void Start () {
 		main = GameObject.Find("Main").GetComponent<Main> (); // NOOOOT GOOD CHANGE THIS SHIT: CALLBACK WFROM MAIN ????
 
 		spectrumList = new List<SpectrumObject[]>();
 
-		
-		
+		mesh = new Mesh();
+        GetComponent<MeshFilter>().mesh = mesh;
+        CreateTunnel();
+        UpdateMesh();
+		/*
 		for(int i = 0; i < maxObjects; i++){
 			SpectrumObject[] currentRowOfObjects = new SpectrumObject[spectrumRows];
 			for(int o = 0; o < spectrumRows; o++){
 				if(tunnelGrid == true) {
-					/* Tunnel CALC */
 					currentRowOfObjects[o] = new SpectrumObject { 
 						TimeInSong = (float) i, 
 						Amplitude = 1f,
@@ -56,26 +70,10 @@ public class SpectrumBoy : MonoBehaviour {
 					};
 					currentRowOfObjects[o].updateMesh(currentRowOfObjects[o].tunnelMeshPoints());
 					currentRowOfObjects[o].updateRotation();
-
-
-
-					/*Vector3 gridPos = new Vector3(0, 0, i);
-					float angle = o * Mathf.PI * 2  / spectrumRows;
-					float x = Mathf.Cos(angle) * radius;
-					float y = Mathf.Sin(angle) * radius;
-					Vector3 tunnelPos = gridPos + new Vector3(x, y, 0);
-					float angleDegrees = +angle*Mathf.Rad2Deg+90;
-					Quaternion rot = Quaternion.Euler(0, 0, angleDegrees);
-					currentRowOfObjects[o] = new SpectrumObject { TimeInSong = (float) i, Object = Instantiate(myPrefab, tunnelPos, rot) };*/
-				}
-				else {
-					// Old grid calculation
-					Vector3 gridPos = new Vector3(o, 0, i); // old: Don't need x -> new x by circle
-					currentRowOfObjects[o] = new SpectrumObject { TimeInSong = (float) i, Object = Instantiate(myPrefab, gridPos, Quaternion.identity) };
-				}				
+				}		
 			}
 			spectrumList.Add(currentRowOfObjects);
-		}
+		} */
 	}
 
 	public void setSpectrum(List<Tuple<float, float[]>> newSpectrum){
@@ -85,51 +83,115 @@ public class SpectrumBoy : MonoBehaviour {
 	public void setSecondsPerFFTChunk(float chunkSize){
 		secondsPerFFTChunk = chunkSize;
 	}
-	
 
-	public void buildSpectrumGraph(){
-		// Testing only
-		// instSimple2DSpectrum();
-		for (int i = 0; i < spectrumList.Count; i++) {
-			for(int o = 0; o < spectrumRows; o++){
-				spectrumList[i][o].TimeInSong =  spectrum[i].Item1;
-				spectrumList[i][o].Amplitude =  spectrum[i].Item2[o];
-				spectrumList[i][o].SecondsPerFFTChunk =  secondsPerFFTChunk;
-				//spectrumList[i][o].updateScale();
-				//spectrumList[i][o].updateZPosition();
-				spectrumList[i][o].updateObject();
+	public Vector2 calculateCirclePosition(int circlePosition, int numberofObjectsInCircle, float radius){
+        float angle = circlePosition * Mathf.PI * 2  / (numberofObjectsInCircle);
+        float x = Mathf.Cos(angle) * radius;
+        float y = Mathf.Sin(angle) * radius;
+        Vector2 position = new Vector2(x, y);
+        return position;
+    }
+
+	public void UpdateMesh(){
+        mesh.Clear();
+
+        mesh.vertices = vertices;
+        mesh.triangles = triangles;
+		mesh.colors = colors;
+
+        mesh.RecalculateNormals();
+    }
+
+	public void CreateTunnel(){
+		vertices = new Vector3[(spectrals*2) * (rows*2)];
+		zOff = 0;
+		for (int i = 0, z = 0; z < rows*2; z++){
+			zOff = zOff + z % 2;
+			for (int x = 0; x < spectrals; x++){
+				Vector2 circlePosition = calculateCirclePosition(x, spectrals, outerRadius);
+				vertices[i] = new Vector3(circlePosition.x, circlePosition.y, zOff);
+				i++;
+				circlePosition = calculateCirclePosition(x+1, spectrals, outerRadius);
+				vertices[i] = new Vector3(circlePosition.x, circlePosition.y, zOff);
+				i++;
 			}
-			currentIndex++;
-		}	
-	}
+		}
 
-	public void instSimple2DSpectrum(){
-		for (int i = 0; i < spectrum[0].Item2.Length; i++) { // spectrum[0].Item2.Length = spectrumRows (should be)
-			//simpleSpectrumObjects.Add(Instantiate(myPrefab, new Vector3(i, spectrum[0].Item2[i], spectrum[0].Item1), Quaternion.identity));
-			//spectrumObjects.Add(Instantiate(myPrefab, new Vector3(i, -10, spectrum[0].Item1), Quaternion.identity));
-			currentTime = spectrum[0].Item1;
-			currentIndex = 0;
+		triangles = new int[6 * spectrals*4 * rows*2];
+
+		int vert = 0;
+		int tris = 0;
+		for (int z = 0; z < rows+1; z++){
+			for (int x = 1; x < spectrals*2; x++){
+				triangles[tris + 0] = vert + 0;
+				triangles[tris + 1] = vert + spectrals*2 + 0;
+				triangles[tris + 2] = vert + 1;
+				triangles[tris + 3] = vert + 1;
+				triangles[tris + 4] = vert + spectrals*2 + 0;
+				triangles[tris + 5] = vert + spectrals*2 + 1;
+
+				vert++;
+				tris += 6;
+			}
+			vert++;
+		}
+
+		colors = new Color[vertices.Length];
+		for(int i = 0; i < vertices.Length; i++){
+			colors[i] = new Color(0,0,0,0);
 		}
 	}
 
-	float maxAmplitude = 0f;
-	public void updateSpectrumGraph(float playerPosZ){
-		if(playerPosZ > spectrumList[spectrumList.Count/2][0].Object.transform.position.z){
-				currentIndex++;
-				SpectrumObject[] rowToReorder = spectrumList[0];
-				spectrumList.RemoveAt(0);
-				for(int i = 0; i < rowToReorder.Length; i++){
-					rowToReorder[i].TimeInSong =  spectrum[currentIndex].Item1;
-					rowToReorder[i].Amplitude =  spectrum[currentIndex].Item2[i];
-					//rowToReorder[i].updateScale();
-					//rowToReorder[i].updateZPosition();
-					rowToReorder[i].updateObject();
-					
-				}
-				spectrumList.Add(rowToReorder);
+	public void BuildVerticesSpectrum(int startRow){
+		spectralRow = startRow;
+		zOff = startRow;
+		vertices = new Vector3[(spectrals*2) * (rows*2)];
+		colors = new Color[vertices.Length];
+		for (int i = 0, z = 0; z < rows*2; z++){
+			zOff = zOff + z % 2;
+			float relativeDistFromMid = Mathf.Abs((z-rows)/rows); // DOESNT WORK ?!?!?!
+			for (int x = 0; x < spectrals; x++){
+				// RADIUS: outerRadius - (outerRadius - innerRadius) * Amplitude
+				Vector2 circlePosition = calculateCirclePosition(x, spectrals, outerRadius - (outerRadius - innerRadius) * spectrum[spectralRow].Item2[x]);
+				vertices[i] = new Vector3(circlePosition.x, circlePosition.y, zOff);
+				//colors[i] = gradient.Evaluate(spectrum[spectralRow].Item2[x]);
+				colors[i] = new Color(spectrum[spectralRow].Item2[x], relativeDistFromMid ,0,0);
+				i++;
+				circlePosition = calculateCirclePosition(x+1, spectrals, outerRadius - (outerRadius - innerRadius) * spectrum[spectralRow].Item2[x]);
+				vertices[i] = new Vector3(circlePosition.x, circlePosition.y, zOff);
+				//colors[i] = gradient.Evaluate(spectrum[spectralRow].Item2[x]);
+				colors[i] = new Color(spectrum[spectralRow].Item2[x], relativeDistFromMid, 0,0);
+				i++;
+			}
+			if (z % 2 == 1){
+				spectralRow++;
+			}
 		}
-		
 
-		// FIFO QUEUE
+		triangles = new int[6 * spectrals*4 * rows*2];
+
+		int vert = 0;
+		int tris = 0;
+		for (int z = 0; z < rows+1; z++){
+			for (int x = 1; x < spectrals*2; x++){
+				triangles[tris + 0] = vert + 0;
+				triangles[tris + 1] = vert + spectrals*2 + 0;
+				triangles[tris + 2] = vert + 1;
+				triangles[tris + 3] = vert + 1;
+				triangles[tris + 4] = vert + spectrals*2 + 0;
+				triangles[tris + 5] = vert + spectrals*2 + 1;
+
+				vert++;
+				tris += 6;
+			}
+			vert++;
+		}
+	}
+
+	public void UpdateSpectrumForward(float playerPosZ){
+		// Debug.Log(vertices[vertices.Length/4].z);
+		if(playerPosZ > vertices[vertices.Length/4].z){
+			BuildVerticesSpectrum((int)vertices[0].z + 2);
+		}
 	}
 }

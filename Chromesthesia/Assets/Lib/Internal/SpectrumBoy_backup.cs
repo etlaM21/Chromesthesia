@@ -5,13 +5,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpectrumBoyBackup : MonoBehaviour {
+public class SpectrumBoy_backup : MonoBehaviour {
 
 	public Main main; // NOOOOT GOOD CHANGE THIS SHIT: CALLBACK WFROM MAIN ????
 
 	public GameObject myPrefab;	
 
 	public List<Tuple<float, float[]>> spectrum;
+	SpectrumObject SpectrumObject;
 
 	public List<SpectrumObject[]> spectrumList;
 	public float currentTime;
@@ -25,6 +26,12 @@ public class SpectrumBoyBackup : MonoBehaviour {
 
 	public bool tunnelGrid = true;
 
+	public float radius = 40f;
+	
+	public float outerRadius = 20f;
+
+	public float innerRadius = 5f;
+
 	// Use this for initialization
 	void Start () {
 		main = GameObject.Find("Main").GetComponent<Main> (); // NOOOOT GOOD CHANGE THIS SHIT: CALLBACK WFROM MAIN ????
@@ -32,20 +39,34 @@ public class SpectrumBoyBackup : MonoBehaviour {
 		spectrumList = new List<SpectrumObject[]>();
 
 		
-		float radius = 40f;
+		
 		for(int i = 0; i < maxObjects; i++){
 			SpectrumObject[] currentRowOfObjects = new SpectrumObject[spectrumRows];
 			for(int o = 0; o < spectrumRows; o++){
 				if(tunnelGrid == true) {
-					/* CIRCULAR CALC */
-					Vector3 gridPos = new Vector3(0, 0, i);
+					/* Tunnel CALC */
+					currentRowOfObjects[o] = new SpectrumObject { 
+						TimeInSong = (float) i, 
+						Amplitude = 1f,
+						Object = Instantiate(myPrefab, new Vector3(0,0,0), Quaternion.identity),
+						indexInRow = o,
+						numberOfObjects = spectrumRows,
+						radiusOuter = outerRadius,
+						radiusInner = innerRadius						
+					};
+					currentRowOfObjects[o].updateMesh(currentRowOfObjects[o].tunnelMeshPoints());
+					currentRowOfObjects[o].updateRotation();
+
+
+
+					/*Vector3 gridPos = new Vector3(0, 0, i);
 					float angle = o * Mathf.PI * 2  / spectrumRows;
 					float x = Mathf.Cos(angle) * radius;
 					float y = Mathf.Sin(angle) * radius;
 					Vector3 tunnelPos = gridPos + new Vector3(x, y, 0);
 					float angleDegrees = +angle*Mathf.Rad2Deg+90;
 					Quaternion rot = Quaternion.Euler(0, 0, angleDegrees);
-					currentRowOfObjects[o] = new SpectrumObject { TimeInSong = (float) i, Object = Instantiate(myPrefab, tunnelPos, rot) };
+					currentRowOfObjects[o] = new SpectrumObject { TimeInSong = (float) i, Object = Instantiate(myPrefab, tunnelPos, rot) };*/
 				}
 				else {
 					// Old grid calculation
@@ -55,25 +76,6 @@ public class SpectrumBoyBackup : MonoBehaviour {
 			}
 			spectrumList.Add(currentRowOfObjects);
 		}
-	}
-
-	public class SpectrumObject {
-		public float TimeInSong { get; set; }
-		public float Amplitude { get; set; }
-		public float SecondsPerFFTChunk { get; set; }
-		public GameObject Object { get; set; }
-
-		public void updateZPosition(){
-			this.Object.transform.position = new Vector3(this.Object.transform.position.x, this.Object.transform.position.y, this.songPositionToWorldPosition(this.TimeInSong));
-		}
-		public float songPositionToWorldPosition(float songTime){
-			return (songTime/SecondsPerFFTChunk)/2;
-		}
-
-		public void updateScale(){
-			this.Object.transform.localScale = new Vector3(this.Object.transform.localScale.x, Amplitude*100+1, this.Object.transform.localScale.z);
-		}
-
 	}
 
 	public void setSpectrum(List<Tuple<float, float[]>> newSpectrum){
@@ -93,8 +95,9 @@ public class SpectrumBoyBackup : MonoBehaviour {
 				spectrumList[i][o].TimeInSong =  spectrum[i].Item1;
 				spectrumList[i][o].Amplitude =  spectrum[i].Item2[o];
 				spectrumList[i][o].SecondsPerFFTChunk =  secondsPerFFTChunk;
-				spectrumList[i][o].updateScale();
-				spectrumList[i][o].updateZPosition();
+				//spectrumList[i][o].updateScale();
+				//spectrumList[i][o].updateZPosition();
+				spectrumList[i][o].updateObject();
 			}
 			currentIndex++;
 		}	
@@ -110,7 +113,7 @@ public class SpectrumBoyBackup : MonoBehaviour {
 	}
 
 	float maxAmplitude = 0f;
-	public void updateSpectrumGraph(float playerPosZ){
+	public void UpdateSpectrumForward(float playerPosZ){
 		if(playerPosZ > spectrumList[spectrumList.Count/2][0].Object.transform.position.z){
 				currentIndex++;
 				SpectrumObject[] rowToReorder = spectrumList[0];
@@ -118,8 +121,9 @@ public class SpectrumBoyBackup : MonoBehaviour {
 				for(int i = 0; i < rowToReorder.Length; i++){
 					rowToReorder[i].TimeInSong =  spectrum[currentIndex].Item1;
 					rowToReorder[i].Amplitude =  spectrum[currentIndex].Item2[i];
-					rowToReorder[i].updateScale();
-					rowToReorder[i].updateZPosition();
+					//rowToReorder[i].updateScale();
+					//rowToReorder[i].updateZPosition();
+					rowToReorder[i].updateObject();
 					
 				}
 				spectrumList.Add(rowToReorder);

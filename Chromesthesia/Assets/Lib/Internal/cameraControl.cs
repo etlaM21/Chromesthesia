@@ -6,6 +6,8 @@ public class cameraControl : MonoBehaviour
 {
     public GameObject cameraToControl;
     
+    public bool enableMouseControl = true;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -15,7 +17,9 @@ public class cameraControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        cameraUpdate();
+        if(enableMouseControl) {
+            cameraUpdate();
+        }
     }
     
     /* Camera Control
@@ -26,6 +30,7 @@ public class cameraControl : MonoBehaviour
     public float camSpeedV = 4.0f;
     private float yaw = 0.0f;
     private float pitch = 0.0f;
+
 
     void cameraUpdate () {
 

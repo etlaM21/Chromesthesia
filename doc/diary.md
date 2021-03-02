@@ -7,15 +7,17 @@
   - [20/12/02](#201202)
   - [20/12/18](#201218)
   - [20/12/30](#201230)
-  - [20/01/04](#200104)
-  - [20/01/05](#200105)
-  - [20/01/06](#200106)
-  - [20/01/07](#200107)
+  - [21/01/04](#210104)
+  - [21/01/05](#210105)
+  - [21/01/06](#210106)
+  - [21/01/07](#210107)
   - [20/01/08](#200108)
-  - [20/01/09](#200109)
-  - [20/01/11](#200111)
+  - [21/01/09](#210109)
+  - [21/01/11](#210111)
   - [- update schedule](#--update-schedule)
-  - [20/01/14](#200114)
+  - [21/01/14](#210114)
+  - [21/01/25](#210125)
+  - [21/02/20](#210220)
 
 ---
 
@@ -161,7 +163,7 @@ _One thing's for sure: we're not ahead of schedule_
 
 ---
 
-## 20/01/04
+## 21/01/04
 
 _First day of the project week: tried to build the world by reducing the data but still ran into problems._
 
@@ -181,7 +183,7 @@ _First day of the project week: tried to build the world by reducing the data bu
 
 ---
 
-## 20/01/05
+## 21/01/05
 
 _FFT, FFT, FFT, FFT, FFT, FFT ..._
 
@@ -195,7 +197,7 @@ _FFT, FFT, FFT, FFT, FFT, FFT ..._
 
 ---
 
-## 20/01/06
+## 21/01/06
 
 _Lots of figuring out FFTs again, this time trying to work with the data I recieve better._
 
@@ -218,7 +220,7 @@ _Sequence diagram._
 
 ---
 
-## 20/01/07
+## 21/01/07
 
 _Made lots of progress and build a first prototype resulting in me going to bed with frustration. Why can't everything just work and look perfectly immediately?_
 
@@ -266,7 +268,7 @@ _Implementation in Unity._
 
 ---
 
-## 20/01/09
+## 21/01/09
 
 _FIRST: Yay, progress! THEN: Let's try it in VR finally. NOW: FML, doesn't work straight away. Sadness._
 
@@ -285,7 +287,7 @@ _FIRST: Yay, progress! THEN: Let's try it in VR finally. NOW: FML, doesn't work 
 
 ---
 
-## 20/01/11
+## 21/01/11
 
 _Today I maybe dug my own grave. We'll see on the 12th of March._
 
@@ -297,7 +299,7 @@ _Today I maybe dug my own grave. We'll see on the 12th of March._
 - update [schedule](schedule.md) 
 ---
 
-## 20/01/14
+## 21/01/14
 
 _..._
 
@@ -308,7 +310,48 @@ _..._
   - when reduced number of objects vr experience not the greatest but acceptable (IN TEST SCENE!) 
 
 **_(NEW) PROBLEMS_**
-- performance on oculus quest seems like a bigger problem
+- performance on Oculus Quest seems like a bigger problem
 
 **_TODO_**
 - preprocess vertice points for every object in whole song as well to take every possible processing load off of Oculus Quest
+
+
+## 21/01/25
+
+_WE GOT IT RUNNING ON THE QUEST! WOOOOOH!!!_
+
+**_DONE_**
+- fixed performance on Oculus Quest
+  - nothing I tried worked at first when executed on the Quest, but after using Oculus' OVR Profiler tool to get behind the reason why, I found out I was having way too many draw calls (> 2500, recommended are > 100 lol)
+  - I'm not generating cubes or pizzaslices anymore
+    - instead I'm generating one single mesh, looking exactly like before
+      - this reduced the draw calls to 3 (!)
+- started styling a little
+  - because I'm now generating a single mesh, I'm able to map the frequencies' amplitudes to vertex colors and use these in the shader graph to draw pretty gradients!
+
+**_TODO_**
+- make the audio output interactable as planned
+  - have the Oculus' controllers be the _controllers_
+
+![Vertex Coloring](img/vertex_coloring.png)
+_Vertex color based gradients! It's a little dark maybe, but that makes it really cool in VR, trust me._
+
+
+## 21/02/20
+
+_long time no see, we got interactions working_
+
+**_DONE_**
+- interactable audio FX:
+  - reverb
+  - chorus
+  - flanger
+  - solo specific frequency
+    - something, I'm proud of because it's rather clever: There is no actual way to solo a frequency by default. So I used a low- and highpass-filter kind of "inverted" with some hz distance between them to achieve the same effect!
+  - mute specific frequency
+- right now it's controlled with a 2D UI and the keyboard
+  - specifying what frequency to mute / solo works by "flying" down into the section. I think it's a really elegant solution!
+
+**_TODO_**
+- have the Oculus' controllers be the _controllers_
+- have main menu loading audio in, implement SoundCloud API
