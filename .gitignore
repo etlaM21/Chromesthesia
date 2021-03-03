@@ -10,6 +10,10 @@ SampleProjects
 
 res/*.c4d
 
+doc/img/tunnel_pizza_01.gif
+doc/img/tunnel_pizza_01_lowres.gif
+doc/img/tunnel_pizza_01_lowestres.gif
+
 
 # Created by https://www.toptal.com/developers/gitignore/api/unity,visualstudiocode
 # Edit at https://www.toptal.com/developers/gitignore?templates=unity,visualstudiocode

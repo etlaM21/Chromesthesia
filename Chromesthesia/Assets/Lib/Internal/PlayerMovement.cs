@@ -27,6 +27,15 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKey(KeyCode.S)) {
             PlayerPosition.transform.localPosition =  PlayerPosition.transform.localPosition  + new Vector3(0, -movementSpeed * Time.deltaTime, 0);
         }
+        // Forward / Backward
+        float fwdSpeed = 1f;
+        float bckwdSpeed = 2f; // Backward should be a little higher, because Audio is playing back. So if we go back 1 sec every sec, we actually stay in place
+        if (Input.GetKey(KeyCode.Q)) {
+            Main.Instance.AudioSource.time = Main.Instance.AudioSource.time + fwdSpeed * Time.deltaTime;
+        }
 
+        if (Input.GetKey(KeyCode.E)) {
+            Main.Instance.AudioSource.time = Main.Instance.AudioSource.time - bckwdSpeed * Time.deltaTime;
+        }
     }
 }

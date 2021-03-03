@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
-public class AudioManipulator : MonoBehaviour
+public class AudioManipul8r : MonoBehaviour
 {
-    public static AudioManipulator instance;
+    public static AudioManipul8r instance;
 
     public AudioMixer mixer;
 
@@ -52,8 +52,13 @@ public class AudioManipulator : MonoBehaviour
     }
 
     public void setMuteFreq(float freqRange, float gain){
-        mixer.SetFloat("MuteFreq", freqRange);
-        mixer.SetFloat("MuteFreqGain", gain);
+        if(muteFreq){
+            mixer.SetFloat("MuteFreq", freqRange);
+            mixer.SetFloat("MuteFreqGain", gain);
+        }
+        else {
+            mixer.SetFloat("MuteFreqGain", 1);
+        }
     }
 
     public void setMuteToogle(bool state){
@@ -61,23 +66,29 @@ public class AudioManipulator : MonoBehaviour
         Debug.Log(muteFreq);
     }
     public void setSoloFreq(float freqRange, float soloRange) {
-        // soloRange = soloRange / 2;
-        float lowcutoff = freqRange - soloRange;
-        if(lowcutoff < 10) {
-            lowcutoff = 10;
+        if(soloFreq){
+            // soloRange = soloRange / 2;
+            float lowcutoff = freqRange - soloRange;
+            if(lowcutoff < 10) {
+                lowcutoff = 10;
+            }
+            if(lowcutoff > 22000) {
+                lowcutoff = 22000;
+            }
+            float highcutoff = freqRange + soloRange;
+            if(highcutoff < 10) {
+                highcutoff = 10;
+            }
+            if(highcutoff > 22000) {
+                highcutoff = 22000;
+            }
+            mixer.SetFloat("SoloLowPass", highcutoff);
+            mixer.SetFloat("SoloHighPass", lowcutoff);
         }
-        if(lowcutoff > 22000) {
-            lowcutoff = 22000;
+        else {
+            mixer.SetFloat("SoloLowPass", 22000);
+            mixer.SetFloat("SoloHighPass", 10);
         }
-        float highcutoff = freqRange + soloRange;
-        if(highcutoff < 10) {
-            highcutoff = 10;
-        }
-        if(highcutoff > 22000) {
-            highcutoff = 22000;
-        }
-        mixer.SetFloat("SoloLowPass", highcutoff);
-        mixer.SetFloat("SoloHighPass", lowcutoff);
     }
     public void setSoloToogle(bool state){
         soloFreq = state;
