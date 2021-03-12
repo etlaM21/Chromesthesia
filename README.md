@@ -126,4 +126,4 @@ So the selection room is exactly that, a pretty average looking room with a TV w
 
 The **Chromesthesia world is completly different to that**: Everything is abstract, the command center looks like something from the future and you're finally let free. While you were sitting in a static room in the selection screen, you can finally move around the new world made up of your chosen song. It's big and vast and doesn't seem to end. 
 
-With this decision I think I could actually build an experience visually which is adequate to the one a (great) song sonically is: **Bigger than life, almost surreal and something which simply amazes you**.
+With this decision I think I actually build an experience visually which is adequate to the one a (great) song sonically is: **Bigger than life, almost surreal and something which simply amazes you**.
