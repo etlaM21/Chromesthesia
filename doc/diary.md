@@ -18,6 +18,13 @@
   - [21/01/14](#210114)
   - [21/01/25](#210125)
   - [21/02/20](#210220)
+  - [21/03/01](#210301)
+  - [21/03/03](#210303)
+  - [21/03/05](#210305)
+  - [21/03/06](#210306)
+  - [21/03/08](#210308)
+  - [21/03/10](#210310)
+  - [21/03/11](#210311)
 
 ---
 
@@ -355,3 +362,106 @@ _long time no see, we got interactions working_
 **_TODO_**
 - have the Oculus' controllers be the _controllers_
 - have main menu loading audio in, implement SoundCloud API
+
+## 21/03/01
+
+_SoundCloud won't work_
+
+So I tried to tackle SoundCloud today and unfortunately had to realize it won't be possible to implement in my project, both time- and knowledge-wise:
+
+**SoundCloud only gives a streaming URL as possible endpoint for a request**
+* While streaming is possible within a Unity project, it isn't enough for my case as I don't analyze audio in realtime but pre-process it in order to build the world
+* A possible solution would be to download the streamed song somehow and then add it to the Unity assets, but there are two problems with this:
+  * The audiofile needs to be _decompressed_, a compressed audio is "packed" into 2 - 4 second long audio containers. A decompressed isn't. This is important, because for the visualization the actual time values are important as to have for example second 94 of a song with it's frequencies' amplitudes at second 94 when building the world. Else we would end up with a world consisting of 2-4 seconds length, with all the amplitudes stagged on top of eachother.
+    * Unity can't do this in runtime, but only while loading the application. So we would need to download the file and store it temporarly, exit the application and restart again without deleting the temporary file and then build the world. On top of that we would also won't the experience to be smooth, which seems to be impossible under these circumstances.
+  * I simply don't have enough knowledge with C# as of yet to implement something like this in the reamining time.
+
+**_DONE_**
+- turned the main script into a singleton to reference it more easily
+- created a select screen 
+  - ability to load in different songs for the visualization
+  - controlled by the Oculus' controller with a raypointer 
+
+**_TODO_**
+- audio FX interactable with VR controllers
+
+## 21/03/03
+
+_everything is interactable with the VR controllers_
+
+**_DONE_**
+- VR controllers can now be used to activate/deactive effects
+
+
+**_TODO_**
+- fix the FFT to properly display the frequencies
+- implement a return to the select screen when the song is finished
+  
+
+## 21/03/05
+
+_PROPER FFT!_
+
+**_DONE_**
+- the display of the frequencies is now done properly
+  - the linear FFT is staggered logarithmically along the radius of the tunnel
+  - the amplitudes are exponentially scaled to have lower frequencies' max be as load as the higher one's
+- when the song is finished we now automatically go back to the select screen
+
+
+**_TODO_**
+- implement a realtime spectrum to give the user an idea where he is in the spectrum when flying in and out of frequencies
+- use the spectral flux analysis to make the visualization nicer
+- models for the "command center" and the select screen
+
+## 21/03/06
+
+_beatpoints are now displayed with particle effects_
+
+**_DONE_**
+- the beatpoints calculated by the spectral flux analysis are now triggering particle effects while flying through the spectrum
+  - doesn't look very good, maybe we can use the information for triggering something else
+
+
+**_TODO_**
+- implement a realtime spectrum to give the user an idea where he is in the spectrum when flying in and out of frequencies
+- models for the "command center" and the select screen
+
+## 21/03/08
+
+_No UI needed! I got a great idea for a tutorial!_
+
+**_DONE_**
+- models for the "command center" and the "select screen"
+  - while modeling the select screen envivroment I had the idea to use a poster as well as a instruction in the left hand of the user to display the the tutorial. This way there are no unfitting UIs to disturb your immersive experience!
+
+
+**_TODO_**
+- implement a realtime spectrum to give the user an idea where he is in the spectrum when flying in and out of frequencies
+- have a way to exit the visualizer if you don't want to listen until the very end of the song
+
+
+![Instructions](img/instructions.png)
+_This is my tutorial now! Left: The instructions the user has in his or her right hand. Right: Additionally there is a poster in the room to tell you the same thing!_
+
+## 21/03/10
+
+_We're done?_
+
+**_DONE_**
+- the command center now has a realtime spectrum which tells the user what frequency he currently is flying through. The "deeper" he is in that frequency, the stronger this frequency is displayed!
+- the user can now exit back to the main screen whenever he wants to
+
+
+**_TODO_**
+- add songs!
+
+## 21/03/11
+
+_We're done!_
+
+**_DONE_**
+- added songs (only hits, that's a guarantee!)
+
+**_TODO_**
+- update documentation, work on presentation!
