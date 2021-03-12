@@ -59,7 +59,7 @@ Pre-processing both is very important for this project. As we're building the wo
 
 ### **Working with the data**
 
-The data of a DFT is a linear representation of a sample region at a given point in time. This is nice, because the data is _(for the most part, there are windowing functions etc.)_ is an uneffected display of the frequencies' amplitudes. **But music doesn't behave in a linear fashion**:
+The data of a DFT is a linear representation of the amplitudes of a sample region at a given point in time. This is nice, because the data is _(for the most part, there are windowing functions etc.)_ is an uneffected display of the frequencies' amplitudes. **But music doesn't behave in a linear fashion**:
 
 **Notes are logarithmically spaced**. The difference between consecutive low notes, say A2(110 Hz) and A2#(116.5 Hz) is 6.5 Hz while the difference between the same 2 notes on a higher octave A3(220 Hz) and A3#(233.1 Hz) is 13.1 Hz. That's why we need to logarithmically stagger our DFT spectrum to have our "music spectrum" when we apply to a given amount of "targets" in our tunnel radius (32 blocks in this implementation). To logarithmically stagger in a given range (the range of the spectrum of our DFT), we use this function:
 
