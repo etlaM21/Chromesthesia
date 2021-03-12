@@ -78,4 +78,32 @@ After having quite the headache with the DFT, I turned to the data of our Spectr
 ## **Devevloping for VR / Oculus Quest**
 ### **Optimizing perfomance**
 
+After doing all that Jazz and having my first prototpy up and running in Unity, **I nearly started to cry after deploying my first build on the Oculus Quest**.  With maybe 1 or 2 FPS a "pleasing" experience in VR seemed impossible. It looked like I dug my own grave.
 
+So I started to stress-test the Google servers and looked all across the internet for solutions to my issues. It didn't seem logical that I had around 300 FPS on my machine and nothing close to that on the Oculus. After reading about Render Pipelines I used two tools to tackle the problem:
+- _the OVRProfiler by Oculus for Unity_
+- _Unity's built-in profiler_
+
+These profilers helped me to gain a deeper understanding as to what is actually being calculated, even giving me the opportunity to look at each individual draw call that makes up a frame. Soon I figured out my main problem: having **too many draw calls**. Everytime a frame is rendered, there are "layers" being stacked on top of eachother. Some are used for the shadows on objects, some for specular highlights, other for the UI and so on. The **OVRProfiler recommends having under 100 draw calls**, I had over 1000.
+
+### **Reducing draw calls**
+
+When drawing such a layer, the render pipeline looks at each mesh and determines whether or not it has an effect on the other meshes when it draws a frame. A white box hidden behind a black box in front can still have an effect on the one in the foregorund when light is bouncing of it and therefore has to be drawn by the render pipeline. At that point I was drawing 32 x 500 of such boxes for my tunnel, each having an effect on eachother and drastically hurting my performance. So I had to **convert all these individual boxes into a single mesh**. If you want to have a look at my grand plan for this, you can see it in [this image](doc\vertexscreation.png).
+
+After implementing an algorithm which procedurally generates a single mesh according to the player's current position in the song and the frequencies' amplitudes surronding him, I was **able to reduce my draw calls by a huge amount**. How much you ask? I kid you not, the profilers ended up tellig me that I know needed _four_ draw calls instead of over one thousand.
+
+The light and shadows and everything else is still being calculated as it was before. No change there. The reason a GPU is so much faster with a single mesh is because it can then **just look at the triangles and their vectors of a single mesh when calculating a draw call**, instead of having to go through every individual mesh and looking at all the triangles in relation to the other triangles of the other meshes to determine their effect on the lighting. 
+
+### **Working in 2D for 3D**
+
+Another problem throughout development was working on my 2D screen when modelling and building the world for VR. The **feel of scale in scenes is vastly different when you have a 360 degree view** with the headset on. I don't think there is a simple solution for this, other than constantly looking at everything in the Oculus Quest. After a while I had the idea to make my life a bit easier by creating reference points for heights when modelling, so that the size of the models would be relative to the height of the player. This helped a little, but still there was very much a need for constantly checking the scene in VR.
+
+Also **interactions are different in VR**. When I wrote down _"VR interactions"_ in my to-dos, I figured it would'nt be much of a problem to figure out, but you have to think different when creating interactable parts in a VR scene. A slider doesn't bother us much when we're looking onto our monitor, because we're used to seeing a slider _on our monitor_. But where do you put a slider in VR? 
+
+The first experiments I did with interactions where very much following this logic. **I just put a virtual monitor somewhere and made it have an interactable slider. But that just felt cheap**. Of course it worked, but it did not make any use of the great potential a VR experience can have. So I drew around some concepts in my book and did end up with the "command center". I didn't want a simple raypointer to interact with things, but to **have the user actually interact with things**. This meant that he or she should have to make great use of the hands. Maybe have to turn around to press a button or step closer to slider to reach it.
+
+That was great and the first time throughout the project where I could really see the use of VR. Some things are still controlled with the controllers' button, **but when you have to turn around and put your hand on a slider to activate an effect, you immediatly get more drawn into the experience**.
+
+## **Making decisions**
+
+### **Dropping the SoundCloud API**
