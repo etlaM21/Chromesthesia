@@ -10,6 +10,14 @@ SampleProjects
 
 res/*.c4d
 
+res/objects/
+
+*.c4d
+*.psd
+*.ai
+
+Chromesthesia/Assets/Resources/models/introRoom/tex/
+
 doc/img/tunnel_pizza_01.gif
 doc/img/tunnel_pizza_01_lowres.gif
 doc/img/tunnel_pizza_01_lowestres.gif

@@ -38,4 +38,37 @@ public class PlayerMovement : MonoBehaviour
             Main.Instance.AudioSource.time = Main.Instance.AudioSource.time - bckwdSpeed * Time.deltaTime;
         }
     }
+
+    public void rotateLeft(){
+        transform.eulerAngles = new Vector3(0,0, transform.eulerAngles.z - rotationSpeed * Time.deltaTime);
+    }
+
+    public void rotateRight(){
+        transform.eulerAngles = new Vector3(0,0, transform.eulerAngles.z + rotationSpeed * Time.deltaTime);
+    }
+
+    public void rotate(float amount){
+        transform.eulerAngles = new Vector3(0,0, transform.eulerAngles.z + (rotationSpeed * amount) * Time.deltaTime);
+    }
+
+    public void moveDown(){
+        PlayerPosition.transform.localPosition =  PlayerPosition.transform.localPosition  + new Vector3(0, -movementSpeed * Time.deltaTime, 0);
+    }
+
+    public void moveUp(){
+        PlayerPosition.transform.localPosition =  PlayerPosition.transform.localPosition + new Vector3(0, movementSpeed * Time.deltaTime, 0);
+    }
+
+    public void moveY(float amount){
+         PlayerPosition.transform.localPosition =  PlayerPosition.transform.localPosition + new Vector3(0, (movementSpeed * amount) * Time.deltaTime, 0);
+    }
+
+    public void moveFwd(float speed){
+        Main.Instance.AudioSource.time = Main.Instance.AudioSource.time + speed * Time.deltaTime;
+
+    }
+
+    public void moveBckwd(float speed){
+        Main.Instance.AudioSource.time = Main.Instance.AudioSource.time - speed * Time.deltaTime;
+    }
 }

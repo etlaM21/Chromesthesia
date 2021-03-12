@@ -7,24 +7,6 @@ using UnityEngine.SceneManagement;
 
 public class Main : MonoBehaviour {
 
-	// Singleton stuff !
-	/*
-	private static Main _instance;
-    
-    void Awake(){
-
-        if (_instance == null){
-
-            _instance = this;
-            DontDestroyOnLoad(this.gameObject);
-    
-            //Rest of your Awake code
-    
-        } else {
-            Destroy(this);
-        }
-    } */
-
 	// Singleton Stuff v2
 	// Code by: CaptainRedmuff
 	// URL: https://gamedev.stackexchange.com/questions/116009/in-unity-how-do-i-correctly-implement-the-singleton-pattern
@@ -34,14 +16,6 @@ public class Main : MonoBehaviour {
     {
         get
         {
-			// If I would be good programmer, I would check every scene if it already has a "Main" gameObject and then delete this new instance to keep the old
-			// Instead, I'm an even better programmer and just use 2 scenes and pray to god that I can't fuck it up with a setup this simple!
-            /*if(_instance == null)
-            {
-                _instance = new GameObject("Main");
-                _instance.AddComponent<Main>();
-            }*/
-
             return _instance;
         }
     }
@@ -52,8 +26,6 @@ public class Main : MonoBehaviour {
 
 			_instance = this;
 			DontDestroyOnLoad(this.gameObject);
-
-			//Rest of your Awake code
 
 		} else {
 			Destroy(this);
@@ -91,8 +63,12 @@ public class Main : MonoBehaviour {
 	public AudioSource AudioSource;
 
 	SpectrumBoy SpectrumBoy;
-	GameObject Player;
+	public GameObject Player;
 	public float secondsPerFFTChunk;
+
+	public bool songFinished = false;
+
+	public GameObject loadingScreen;
 	void Start() {
 		AudioSource = GetComponent<AudioSource>();
 	}
@@ -105,6 +81,8 @@ public class Main : MonoBehaviour {
 		threeDimensionalSpectrumBuild = false;
 		SpectrumBoy = GameObject.Find("SpectrumBoy").GetComponent<SpectrumBoy> ();
 		Soundm8.processSignal(AudioSource);
+		loadingScreen = GameObject.Find("LoadingInfo");
+		loadingScreen.SetActive(true);
 	}
 
 	void Update() {
@@ -120,37 +98,55 @@ public class Main : MonoBehaviour {
 				SpectrumBoy.BuildVerticesSpectrum(0);
 				SpectrumBoy.UpdateMesh();
 				//SpectrumBoy.buildSpectrumGraph();
+				SpectrumBoy.GenerateHitPoints(Soundm8.preProcessedSpectralFluxAnalyzer.spectralFluxSamples);
+
+				loadingScreen.SetActive(false);
+
 			}
 			if(backgroundThreadCompleted == true && threeDimensionalSpectrumBuild == true) {
-				Player.transform.position = new Vector3(Player.transform.position.x, Player.transform.position.y, songPositionToWorldPosition(AudioSource.time));
 
-				/*
-				* AUDIO FX STUFF
-				*/
+				// Interactivity only when songs not finished
+				if(songFinished == false){
+					float currentSongTime = AudioSource.time;
+					Player.transform.position = new Vector3(Player.transform.position.x, Player.transform.position.y, songPositionToWorldPosition(currentSongTime));
 
-				// Manipulate Audio according to rotation (freq solo or mute)
-				Debug.Log(Player.transform.eulerAngles.z);
-				// We calculate the players current height against the outer Radius of our tunnel: When he is exactly at the lowest, the gain is 0, else it is 1 ("normal")
-				float gain = (Player.GetComponent<PlayerMovement>().PlayerPosition.transform.localPosition.y / SpectrumBoy.outerRadius) * 1 + 1;
-				// We set the frequency by calculating his rotation in euelerAngles (0 to 360) logarithmically against the 22.000 hz spectrum. This is kind of accurate.
-				float freq = 22000f * (toLog(Player.transform.eulerAngles.z, 0.1f, 360) / 360);
-				AudioManipul8r.setMuteFreq(freq, gain);
-				// We calculate the players current height against the outer Radius of our tunnel: When he is exactly at the lowest, the range is 0, else it is 22000f ("normal")
-				Debug.Log(gain);
-				float soloRange = toLog(gain, 0.01f, 1) * 22000f + 10;
-				Debug.Log(soloRange);
+					/*
+					* AUDIO FX STUFF
+					*/
+
+					// Manipulate Audio according to rotation (freq solo or mute)
+					// Debug.Log(Player.transform.eulerAngles.z);
+					// We calculate the players current height against the outer Radius of our tunnel: When he is exactly at the lowest, the gain is 0, else it is 1 ("normal")
+					float gain = (Player.GetComponent<PlayerMovement>().PlayerPosition.transform.localPosition.y / SpectrumBoy.outerRadius) * 1 + 1;
+					// We set the frequency by calculating his rotation in euelerAngles (0 to 360) logarithmically against the 22.000 hz spectrum. This is kind of accurate.
+					float freq = 22000f * (toLog(Player.transform.eulerAngles.z, 0.1f, 360) / 360);
+					AudioManipul8r.setMuteFreq(freq, gain);
+					// We calculate the players current height against the outer Radius of our tunnel: When he is exactly at the lowest, the range is 0, else it is 22000f ("normal")
+					float soloRange = toLog(gain, 0.01f, 1) * 22000f + 10;
+					AudioManipul8r.setSoloFreq(freq, soloRange);
+
+					SpectrumBoy.UpdateSpectrum(Player.transform.position.z);
+					SpectrumBoy.UpdateMesh();
+					// For the RealtimeFrequencyDisplayUpdate we need to find out over which INDEX the player is
+					float currentSpectralIndex = Mathf.Round(32*(Player.transform.eulerAngles.z/360));
+					SpectrumBoy.updateRealTimeCanvas(currentSongTime, currentSpectralIndex, gain);
+					
+					// SpectrumBoy.updateSpectrumGraph(Player.transform.position.z);
 
 
-				AudioManipul8r.setSoloFreq(freq, soloRange);
+					// SpectrumBoy.updateSpectrumGraph(AudioSource.time);
+					// spectrumRealTime.updateRealTimeSpectrumGraph();
 
-				// MAKE NEW
-				SpectrumBoy.UpdateSpectrumForward(Player.transform.position.z);
-				SpectrumBoy.UpdateMesh();
-				// SpectrumBoy.updateSpectrumGraph(Player.transform.position.z);
-
-
-				// SpectrumBoy.updateSpectrumGraph(AudioSource.time);
-				// spectrumRealTime.updateRealTimeSpectrumGraph();
+					// check if song is finished
+					if(AudioSource.isPlaying == false){
+						songFinished = true;
+					}
+				}
+				// When song is finished
+				else {
+					// Go back to SelectScene
+					SceneManager.LoadScene("SelectScene");
+				}
 			}
 
 		}

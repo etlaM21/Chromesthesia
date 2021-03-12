@@ -75,7 +75,7 @@ public class Main_backup : MonoBehaviour {
 			AudioManipul8r.setSoloFreq(freq, soloRange);
 
 			// MAKE NEW
-			SpectrumBoy.UpdateSpectrumForward(Player.transform.position.z);
+			SpectrumBoy.UpdateSpectrum(Player.transform.position.z);
 			SpectrumBoy.UpdateMesh();
 			// SpectrumBoy.updateSpectrumGraph(Player.transform.position.z);
 

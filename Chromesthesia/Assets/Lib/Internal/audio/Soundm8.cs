@@ -10,7 +10,9 @@ using System.Numerics;
 using DSPLib;
 public class Soundm8 : MonoBehaviour
 {
-    Main main; // NOOOOT GOOD, CHANGE: CALLBACK WFROM MAIN ????
+    Main main;
+	// TESTING ONLY
+	//MainOnlyAudio main;
     AudioSource audioSource;
 	SpectralFluxAnalyzer realTimeSpectralFluxAnalyzer;
 	int numChannels;
@@ -18,7 +20,7 @@ public class Soundm8 : MonoBehaviour
 	public int sampleRate;
 	float clipLength;
 	float[] multiChannelSamples;
-	SpectralFluxAnalyzer preProcessedSpectralFluxAnalyzer;
+	public SpectralFluxAnalyzer preProcessedSpectralFluxAnalyzer;
 	PlotController preProcessedPlotController;
 	bool backgroundThreadCompleted;
 	bool threeDimensionalSpectrumBuild;
@@ -28,13 +30,49 @@ public class Soundm8 : MonoBehaviour
 	int spectrumRows = 32;
 	public List<Tuple<float, float[]>> simpleSpectrum;
 
+	int[] bucketSizes;
+
+	float[] scaleFactors;
+
     // Start is called before the first frame update
     void Start()
     {
-        main = GameObject.Find("Main").GetComponent<Main> (); // NOOOOT GOOD, CHANGE THIS: CALLBACK WFROM MAIN ????
+        main = Main.Instance;
+		// ONLY TESTIMG
+		// main = GameObject.Find("Main").GetComponent<MainOnlyAudio>();;
 
         wholeSpectrum = new List<float[]>();
 		simpleSpectrum = new List<Tuple<float, float[]>>();
+
+		// Bucketsizes aree consistnet
+		
+		float spectrals = 1025;
+		Debug.Log("spectrals: " + spectrals);
+		bucketSizes = new int[spectrumRows];
+		for(int i = spectrumRows-1; i >= 0; i--){
+			if(i != 0){
+				if(i == spectrumRows-1){
+					bucketSizes[i] = (int)spectrals;
+				}
+				else {
+					bucketSizes[i] = (int)Math.Floor(spectrals * (toLog((float)i, 0.1f, (float)spectrumRows) / (float)spectrumRows));
+				}
+			}
+			else {
+				bucketSizes[i] = 0;
+			}
+			Debug.Log("bucketSizes[" + i + "]: " + bucketSizes[i]);
+		}
+		
+		scaleFactors = new float[spectrumRows];
+		float scaleFactor = 100;
+		for(int i = 0; i < scaleFactors.Length; i++){
+			float relativeScaleFactor = 1 + scaleFactor * ((float)bucketSizes[i] / spectrals); //(inverseToLog((float)bucketSizes[i], 0.1f, spectrals) / spectrals); // / spectrals); */
+			Debug.Log("relativeScaleFactor for " + i + ": " + relativeScaleFactor);
+			scaleFactors[i] = relativeScaleFactor; // relativeScaleFactor;
+		}
+		
+
     }
 
     // Update is called once per frame
@@ -48,7 +86,7 @@ public class Soundm8 : MonoBehaviour
         // Preprocess entire audio file upfront
 		if (preProcessSamples) {
 			preProcessedSpectralFluxAnalyzer = new SpectralFluxAnalyzer ();
-			preProcessedPlotController = GameObject.Find ("PreprocessedPlot").GetComponent<PlotController> ();
+			// preProcessedPlotController = GameObject.Find ("PreprocessedPlot").GetComponent<PlotController> ();
 
 			// Need all audio samples.  If in stereo, samples will return with left and right channels interweaved
 			// [L,R,L,R,L,R]
@@ -157,6 +195,7 @@ public class Soundm8 : MonoBehaviour
 	}
 
 	public void addToSimpleSpectrum(float time, float[] spectrum) {
+		/*
 		float stepFactor = 1.17f; // Results in 32 buckets
 		float stepSize = 1f;
 		List<int> bucketSizes = new List<int>();
@@ -198,6 +237,61 @@ public class Soundm8 : MonoBehaviour
 			max = max * 2;
 			scaledSpectrumsPerRow[i] = Mathf.Abs(max); // FFT can return negative spikes as the signal is a wave
 		}
+		*/
+		// v2 ??
+		/*float spectrals = spectrum.Length;
+		Debug.Log("spectrals: " + spectrals);
+		int[] bucketSizes = new int[spectrumRows];
+		for(int i = spectrumRows-1; i >= 0; i--){
+			if(i != 0){
+				if(i == spectrumRows-1){
+					bucketSizes[i] = (int)spectrals;
+				}
+				else {
+					bucketSizes[i] = (int)Math.Floor(spectrals * (toLog((float)i, 0.1f, (float)spectrumRows) / (float)spectrumRows));
+				}
+			}
+			else {
+				bucketSizes[i] = 0;
+			}
+			Debug.Log("bucketSizes[" + i + "]: " + bucketSizes[i]);
+		}*/
+		float[] scaledSpectrumsPerRow = new float[spectrumRows];
+		for (int i = 0; i < bucketSizes.Length; i++) {
+			float max = 0f;
+			int startBucket = 0;
+			if(i > 0){
+				startBucket = bucketSizes[i-1];
+			}
+			/*for(int o = 0; o < i; o++){
+				startBucket = startBucket + bucketSizes[o];
+			}*/
+			//int endBucket = startBucket + bucketSizes[i];
+			int endBucket = bucketSizes[i];
+			if(i == 0){
+				endBucket = 1;
+			}
+			// Debug.Log("endBucket: " + endBucket + ", startBucket: " + startBucket);
+			/* float scaleFactor = 1;
+			float relativeScaleFactor = 1 + scaleFactor * (inverseToLog((float)startBucket, 0.1f, spectrals)); // / spectrals); */
+			for (int o = startBucket; o < endBucket; o++) {
+				if(spectrum[o]*scaleFactors[i] > max){
+				//if(spectrum[o] * relativeScaleFactor > max){
+					// The spectrum values go from 0.0 to 0.5
+					// Some values go a little over 0.5 but we cap it at 0.5
+					max = spectrum[o]*scaleFactors[i]; //* relativeScaleFactor;
+					if(max > 0.5f){
+						max = 0.5f;
+					}
+					
+				}
+			}
+			// Before we add the values (0.0 to 0.5) to our spectrum we multiply it by 2
+			// This way we end up with values ranging from 0 to 1
+			// Helps us to work with the data
+			max = max * 2;
+			scaledSpectrumsPerRow[i] = Mathf.Abs(max); // FFT can return negative spikes as the signal is a wave
+		}
 		simpleSpectrum.Add(new Tuple<float, float[]>(time, scaledSpectrumsPerRow));
 	}
 
@@ -205,5 +299,15 @@ public class Soundm8 : MonoBehaviour
 			float secondsPerMusicSample = 1f / sampleRate;
 			float secondsPerFFTChunk = secondsPerMusicSample * 1024f;
 			return secondsPerFFTChunk;
+	}
+
+	public float toLog (float value, float min, float max){
+		float exp = (value-min) / (max-min);
+		return min * (float)Math.Pow(max/min, exp);
+	}
+
+	public float inverseToLog (float value, float max, float min){
+		float exp = (value-min) / (max-min);
+		return min * (float)Math.Pow(max/min, exp);
 	}
 }

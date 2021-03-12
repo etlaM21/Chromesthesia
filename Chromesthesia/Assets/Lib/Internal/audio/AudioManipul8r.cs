@@ -11,7 +11,7 @@ public class AudioManipul8r : MonoBehaviour
 
     bool muteFreq = false;
 
-    bool soloFreq = true;
+    bool soloFreq = false;
 
     // Start is called before the first frame update
     void Start()
