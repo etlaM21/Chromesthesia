@@ -107,3 +107,23 @@ That was great and the first time throughout the project where I could really se
 ## **Making decisions**
 
 ### **Dropping the SoundCloud API**
+
+I tried to implement a song selection by communicating with the SoundCloud API, but unfortunately had to realize it won't be possible in my project, both time- and knowledge-wise:
+
+**SoundCloud only gives a streaming URL as possible endpoint for a request** and while streaming is possible within a Unity project, it isn't enough for my case as I don't analyze audio in realtime but pre-process it in order to build the world.
+
+A possible solution would be to download the streamed song somehow and then add it to the Unity assets, but there are two problems with this:
+
+The audiofile needs to be _decompressed_, a compressed audio is "packed" into 2 - 4 second long audio containers. A decompressed isn't. This is important, because for the visualization the actual time values are important as to have for example second 94 of a song with it's frequencies' amplitudes at second 94 when building the world. Else we would end up with a world consisting of 2-4 seconds length, with all the amplitudes stagged on top of eachother. **Unity can't do this in runtime, but only while loading the application.** So we would need to download the file and store it temporarly, exit the application and restart again without deleting the temporary file and then build the world. On top of that we would also won't the experience to be smooth, which seems to be impossible under these circumstances.
+
+The other problem is that **I simply don't have enough knowledge with C# as of yet to implement something like this** in the reamining time. Which is bad for the user who wants to experience his/her favorite tracks in Chromesthesia, but on the other hand has the upside for me that I can share my phenomenal taste in music with you and promote hidden gems.
+
+### **Two different worlds affecting eachother**
+
+The last week(s) in this project were the most fun because all the technicalities were up and running and I could focus on making design decisions. **I chose two create two completly different worlds for the song selection and the audiovisual experience**. The idea was to increase the emotional response of the user while in the Chromesthesia experience by having the select screen be as "normal" and quiet as possible. Storywise I wanted to create such a synergy by **letting the user start of as little teen, sitting in front of a TV, eager to try out his newest technological gadget: The Chromesthesia headset to finally see sound**.
+
+So the selection room is exactly that, a pretty average looking room with a TV where the user needs to select the song to have a Chromesthesia experience with. It's quiet, not much is happening and comforting. This setting build up suspension when my friends tried the project for the first time: **They didn't know what was coming, but were eager to choose a song so they could leave this averageness that they were starting in**.
+
+The **Chromesthesia world is completly different to that**: Everything is abstract, the command center looks like something from the future and you're finally let free. While you were sitting in a static room in the selection screen, you can finally move around the new world made up of your chosen song. It's big and vast and doesn't seem to end. 
+
+With this decision I think I could actually build an experience visually which is adequate to the one a (great) song sonically is: **Bigger than life, almost surreal and something which simply amazes you**.
